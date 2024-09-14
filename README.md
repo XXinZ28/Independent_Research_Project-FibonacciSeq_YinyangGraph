@@ -5,4 +5,4 @@ This repository archives the markdown files I compiled to complete my independen
 
 # About the Files
 
-I categorized files into three piles. Under the Fibseq_statistics, you will find all the coding I made to output the table. Under the Fibseq_table_output, you will find the HTML for all the tables, which are also linked in the paper. Lastly, you will find the final paper in PDF format for your interest of reference. 
+I categorized files into three piles. Under the `Fibseq_statistics`, you will find all the coding I made to output the table. Under the `Fibseq_table_output`, you will find the HTML for all the tables, which are also linked in the paper. Lastly, you will find the final paper in PDF format for your interest of reference. 
