@@ -1,0 +1,91 @@
+---
+title: "Statistics for the first 55th Fibonacci numbers"
+author: "Xinxin"
+format: html
+---
+This markdown file contains descriptive statistics for Fibonacci numbers until the 55th term. 
+
+```{r}
+library(knitr)
+library(kableExtra)
+```
+
+insert the sequence, put them into a table: position | value | sum
+
+```{r}
+# Function to generate Fibonacci sequence modulo m
+fib_modulo <- function(n, m) {
+  fibonacci <- numeric(n)
+  fibonacci[1] <- 0
+  fibonacci[2] <- 1
+  
+  for (i in 3:n) {
+    fibonacci[i] <- (fibonacci[i-1] + fibonacci[i-2]) %% m
+  }
+  
+  return(fibonacci)
+}
+
+# Function to calculate Pisano Period length for m
+pisano_period <- function(m) {
+  a <- 0
+  b <- 1
+  for (i in 0:(m^2)) {
+    c <- (a + b) %% m
+    a <- b
+    b <- c
+    if (a == 0 & b == 1) {
+      return(i + 1)
+    }
+  }
+  return(0) # Return 0 if no period is found
+}
+
+# Calculate various statistics for Fibonacci sequence modulo each number from 1 to 55
+results <- data.frame(
+  Modulo = 1:55,
+  Pisano_Period = NA_integer_,
+  No.Zeros = NA_integer_,
+  Sum = NA_real_,
+  Product = NA_real_,
+  GCD = NA_integer_,
+  stringsAsFactors = FALSE
+)
+
+for (i in 1:55) {
+  period <- pisano_period(i)
+  if (period > 0) {
+    fib_mod <- fib_modulo(period, i)
+    results[i, "Pisano_Period"] <- period
+    results[i, "No.Zeros"] <- sum(fib_mod == 0)
+    results[i, "Sum"] <- round(sum(fib_mod), 2)
+    results[i, "Product"] <- round(prod(fib_mod), 2)
+    results[i, "GCD"] <- Reduce(gcd, fib_mod)
+  }
+}
+
+# Convert the first column to character type to maintain its format
+results$Modulo <- as.character(results$Modulo)
+
+# Reorder the columns
+results <- results[c("Modulo", "Pisano_Period", "Sum", "Product", "No.Zeros", "GCD")]
+
+# Add the first row with appropriate values
+results[1, ] <- c(1, 0, 0, 0, 0, 0)
+
+# Print the styled table
+mod_table <- kbl(results, format = "markdown", align = "c") %>%
+  kable_styling(full_width = FALSE) %>%
+  add_header_above(header = c(" " = 1, " " = 5))
+
+styled_mod_table <- add_header_above(mod_table, header = c("Statistical Summary of Fibonacci Sequence First 55 Modulos" = 6), font_size = 20)
+
+styled_mod_table <- kable_styling(styled_mod_table, full_width = FALSE)
+
+styled_mod_table <- column_spec(styled_mod_table, 2, extra_css = "border-right: 1px solid #CCCCCC;")
+
+print(styled_mod_table)
+
+```
+
+
