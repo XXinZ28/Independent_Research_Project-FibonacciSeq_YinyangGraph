@@ -1,0 +1,769 @@
+---
+title: "Statistics for Pisano Periods in Fibonacci Sequence"
+author: "Xinxin Zhang"
+format: pdf
+---
+*Purpose*:
+This document contains the descriptive statistics of Pisano Periods of Fibonacci Sequence, which includes two groups of number: 
+      1. The number of Great Expansion 50, including Modulo 4, 5, 6, 8, 9, 10, and 50.
+      2. The number of Heaven and Earth, including Modulo 25, 30, and 55. 
+In specific, their means, medians, mode, product, biggest common divisor, and sum are calculated. 
+
+*Definition*: 
+Pisano Periods is the period with which the sequence of Fibonacci numbers taken modulo n repeats. The nth Pisano period is written as nπ(n):
+            1, 3, 8, 6, 20, 24, 16, 12, 24, 60, 10, 24, 28, 48, 40, 24, 36, 24, 18, 60, 16, 30, 48...
+
+Terms used in Pisano Periods. 
+π(n) = the length of the period of this sequence nth, also the value of pisano priod;
+nth = the position of value π(n)
+
+Example: 
+For any integer n, the sequence of Fibonacci numbers F(i) taken modulo n is periodic. The Pisano period, denoted π(n), is the length of the period of this sequence. For example, the sequence of Fibonacci numbers modulo 3 begins:
+              0, 1, 1, 2, 0, 2, 2, 1, 0, 1, 1, 2, 0, 2, 2, 1, 0, 1, 1, 2, 0, 2, 2, 1, 0, ... 
+Modulo 3 means the 3th position. This sequence has a period 8(of repetition, the 9th re-started with 0 again to repeat the period), so π(3) = 8. 
+
+
+```{r}
+# Load required libraries
+library(knitr)
+library(kableExtra)
+library(tidyverse)
+if (!requireNamespace("numbers", quietly = TRUE)) {
+  install.packages("numbers")
+}
+library(numbers)
+```
+
+
+# The Number of Great Expansion (50)
+I explored modulo 4, 5, 10, 6, 9, 8, and 50 in this section. 
+
+## Modulo 5
+[n=5, π(5) = 20] 
+```{r}
+# Function to calculate the greatest common divisor (GCD)
+gcd <- function(a, b) {
+  while (b != 0) {
+    temp <- b
+    b <- a %% b
+    a <- temp
+  }
+  return(a)
+}
+
+lcm <- function(a, b) {
+  abs(a * b) / gcd(a, b)
+}
+
+# Function to generate Fibonacci sequence modulo m
+fib_modulo <- function(n, m) {
+  fibonacci <- numeric(n)
+  fibonacci[1] <- 0
+  fibonacci[2] <- 1
+  
+  for (i in 3:n) {
+    fibonacci[i] <- (fibonacci[i-1] + fibonacci[i-2]) %% m
+  }
+  
+  return(fibonacci)
+}
+
+# Calculate Fibonacci sequence modulo 5 for the first 20 numbers
+n <- 20
+m <- 5
+fib_mod_5 <- fib_modulo(n, m)
+
+# Mode
+mode_fib_mod_5 <- names(sort(table(fib_mod_5), decreasing = TRUE))[1]
+
+# Median
+median_fib_mod_5 <- median(fib_mod_5)
+
+# Mean
+mean_fib_mod_5 <- mean(fib_mod_5)
+
+# Sum
+sum_fib_mod_5 <- sum(fib_mod_5)
+
+# Product of each number
+product_fib_mod_5 <- prod(fib_mod_5)
+
+# Greatest Common Divisor (GCD)
+gcd_fib_mod_5 <- Reduce(gcd, fib_mod_5)
+
+# Count the number of zeros
+count_zeros_fib_mod_5 <- sum(fib_mod_5 == 0)
+
+# Total count of numbers appeared in this period
+length_fib_mod_5 <- length(fib_mod_5)
+
+# Create a data frame for results
+results_m5 <- data.frame(
+  "Statistic" = c("F(n) mod 5", "Length π(5)", "Mean", "Median", "Mode", "# Zeros", "Sum", "Product", "GCD"),
+  "Value" = c(paste(fib_mod_5, collapse = " "), length_fib_mod_5, mean_fib_mod_5, median_fib_mod_5, mode_fib_mod_5,  count_zeros_fib_mod_5, sum_fib_mod_5, product_fib_mod_5, gcd_fib_mod_5)
+)
+
+
+# Convert the data frame to a Markdown table
+mod_table <- kable(results_m5, align = c("l", "c"), format = "markdown")
+
+# Apply the styling of the "blue" table to the "mod" table
+styled_mod_table <- kable_styling(mod_table, "striped", full_width = FALSE)
+
+styled_mod_table <- column_spec(styled_mod_table, 1, extra_css = "border-right: 1px solid #CCCCCC;")
+
+# Replace the caption with a header styled as a title
+styled_mod_table <- add_header_above(styled_mod_table, header = c("Statistics of Fibonacci Sequence Modulo 5" = 2), font_size = 20)
+
+# Print the styled table
+print(styled_mod_table)
+
+```
+where 0 could be replaced by 5. 
+
+## Modulo 10
+[n=10, π(10) = 60] 
+```{r}
+# Function to generate Fibonacci sequence modulo m
+fib_modulo <- function(n, m) {
+  fibonacci <- numeric(n)
+  fibonacci[1] <- 0
+  fibonacci[2] <- 1
+  
+  for (i in 3:n) {
+    fibonacci[i] <- (fibonacci[i-1] + fibonacci[i-2]) %% m
+  }
+  
+  return(fibonacci)
+}
+
+# Calculate Fibonacci sequence modulo 10 for the first 60 numbers
+n <- 60
+m <- 10
+fib_mod_10 <- fib_modulo(n, m)
+
+# Mode
+mode_fib_mod_10 <- names(sort(table(fib_mod_10), decreasing = TRUE))[1]
+
+# Median
+median_fib_mod_10 <- median(fib_mod_10)
+
+# Mean
+mean_fib_mod_10 <- round(mean(fib_mod_10),2)
+
+# Sum
+sum_fib_mod_10 <- sum(fib_mod_10)
+
+# Product of each number
+product_fib_mod_10 <- prod(fib_mod_10)
+
+# Greatest Common Divisor (GCD)
+gcd_fib_mod_10 <- Reduce(gcd, fib_mod_10)
+
+# Count the number of zeros
+count_zeros_fib_mod_10 <- sum(fib_mod_10 == 0)
+
+# Total count of numbers in the sequence
+length_fib_mod_10 <- length(fib_mod_10)
+
+# Create a data frame for results
+results_m10 <- data.frame(
+  "Statistic" = c("F(n) mod 10", "Length π(10)", "Mean", "Median", "Mode", "# Zeros", "Sum", "Product", "GCD"),
+  "Value" = c(paste(fib_mod_10, collapse = " "), length_fib_mod_10, mean_fib_mod_10, median_fib_mod_10, mode_fib_mod_10,  count_zeros_fib_mod_10, sum_fib_mod_10, product_fib_mod_10, gcd_fib_mod_10)
+)
+
+# Convert the data frame to a Markdown table
+mod_table <- kable(results_m10, align = c("l", "c"), format = "markdown")
+
+# Apply the styling of the "blue" table to the "mod" table
+styled_mod_table <- kable_styling(mod_table, "striped", full_width = FALSE)
+
+styled_mod_table <- column_spec(styled_mod_table, 1, extra_css = "border-right: 1px solid #CCCCCC;")
+
+# Replace the caption with a header styled as a title
+styled_mod_table <- add_header_above(styled_mod_table, header = c("Statistics of Fibonacci Sequence Modulo 10" = 2), font_size = 20)
+
+# Print the styled table
+print(styled_mod_table)
+
+```
+
+
+## Modulo 6
+[n=6, π(6) = 24] 
+```{r}
+# Function to generate Fibonacci sequence modulo m
+fib_modulo <- function(n, m) {
+  fibonacci <- numeric(n)
+  fibonacci[1] <- 0
+  fibonacci[2] <- 1
+  
+  for (i in 3:n) {
+    fibonacci[i] <- (fibonacci[i-1] + fibonacci[i-2]) %% m
+  }
+  
+  return(fibonacci)
+}
+
+# Calculate Fibonacci sequence modulo 6, Pisano Periods = 24. 
+n <- 24
+m <- 6
+fib_mod_6 <- fib_modulo(n, m)
+
+# Mode
+mode_fib_mod_6 <- names(sort(table(fib_mod_6), decreasing = TRUE))[1]
+
+# Median
+median_fib_mod_6 <- median(fib_mod_6)
+
+# Mean
+mean_fib_mod_6 <- round(mean(fib_mod_6),2)
+
+# Sum
+sum_fib_mod_6 <- sum(fib_mod_6)
+
+# Product of each number
+product_fib_mod_6 <- prod(fib_mod_6)
+
+# Greatest Common Divisor (GCD)
+gcd_fib_mod_6 <- Reduce(gcd, fib_mod_6)
+
+# Count the number of zeros
+count_zeros_fib_mod_6 <- sum(fib_mod_6 == 0)
+
+# Total count of numbers in the sequence
+length_fib_mod_6 <- length(fib_mod_6)
+
+# Create a data frame for results
+results_m6 <- data.frame(
+  "Statistic" = c("F(n) mod 6", "Length π(6)", "Mean", "Median", "Mode", "# Zeros", "Sum", "Product", "GCD"),
+  "Value" = c(paste(fib_mod_6, collapse = " "), length_fib_mod_6, mean_fib_mod_6, median_fib_mod_6, mode_fib_mod_6,  count_zeros_fib_mod_6, sum_fib_mod_6, product_fib_mod_6, gcd_fib_mod_6)
+)
+
+# Convert the data frame to a Markdown table
+mod_table <- kable(results_m6, align = c("l", "c"), format = "markdown")
+
+# Apply the styling of the "blue" table to the "mod" table
+styled_mod_table <- kable_styling(mod_table, "striped", full_width = FALSE)
+
+styled_mod_table <- column_spec(styled_mod_table, 1, extra_css = "border-right: 1px solid #CCCCCC;")
+
+# Replace the caption with a header styled as a title
+styled_mod_table <- add_header_above(styled_mod_table, header = c("Statistics of Fibonacci Sequence Modulo 6" = 2), font_size = 20)
+
+# Print the styled table
+print(styled_mod_table)
+```
+
+
+## Modulo 9
+[n=9, π(9) = 24] 
+```{r}
+# Function to generate Fibonacci sequence modulo m
+fib_modulo <- function(n, m) {
+  fibonacci <- numeric(n)
+  fibonacci[1] <- 0
+  fibonacci[2] <- 1
+  
+  for (i in 3:n) {
+    fibonacci[i] <- (fibonacci[i-1] + fibonacci[i-2]) %% m
+  }
+  
+  return(fibonacci)
+}
+
+# Calculate Fibonacci sequence modulo 9, Pisano Periods = 24.
+n <- 24
+m <- 9
+fib_mod_9 <- fib_modulo(n, m)
+
+# Mode
+mode_fib_mod_9 <- names(sort(table(fib_mod_9), decreasing = TRUE))[1]
+
+# Median
+median_fib_mod_9 <- median(fib_mod_9)
+
+# Mean
+mean_fib_mod_9 <- round(mean(fib_mod_9),2)
+
+# Sum
+sum_fib_mod_9 <- sum(fib_mod_9)
+
+# Product of each number
+product_fib_mod_9 <- prod(fib_mod_9)
+
+# Greatest Common Divisor (GCD)
+gcd_fib_mod_9 <- Reduce(gcd, fib_mod_9)
+
+# Count the number of zeros
+count_zeros_fib_mod_9 <- sum(fib_mod_9 == 0)
+
+# Total count of numbers in the sequence
+length_fib_mod_9 <- length(fib_mod_9)
+
+# Create a data frame for results
+results_m9 <- data.frame(
+  "Statistic" = c("F(n) mod 9", "Length π(9)", "Mean", "Median", "Mode", "# Zeros", "Sum", "Product", "GCD"),
+  "Value" = c(paste(fib_mod_9, collapse = " "), length_fib_mod_9, mean_fib_mod_9, median_fib_mod_9, mode_fib_mod_9,  count_zeros_fib_mod_9, sum_fib_mod_9, product_fib_mod_9, gcd_fib_mod_9)
+)
+
+# Convert the data frame to a Markdown table
+mod_table <- kable(results_m9, align = c("l", "c"), format = "markdown")
+
+# Apply the styling of the "blue" table to the "mod" table
+styled_mod_table <- kable_styling(mod_table, "striped", full_width = FALSE)
+
+styled_mod_table <- column_spec(styled_mod_table, 1, extra_css = "border-right: 1px solid #CCCCCC;")
+
+# Replace the caption with a header styled as a title
+styled_mod_table <- add_header_above(styled_mod_table, header = c("Statistics of Fibonacci Sequence Modulo 9" = 2), font_size = 20)
+
+# Print the styled table
+print(styled_mod_table)
+```
+
+
+## Modulo 8
+[n=8, π(8) = 12] 
+```{r}
+# Function to generate Fibonacci sequence modulo m
+fib_modulo <- function(n, m) {
+  fibonacci <- numeric(n)
+  fibonacci[1] <- 0
+  fibonacci[2] <- 1
+  
+  for (i in 3:n) {
+    fibonacci[i] <- (fibonacci[i-1] + fibonacci[i-2]) %% m
+  }
+  
+  return(fibonacci)
+}
+
+# Calculate Fibonacci sequence modulo 8, Pisano Periods = 12.
+n <- 12
+m <- 8
+fib_mod_8 <- fib_modulo(n, m)
+
+# Mode
+mode_fib_mod_8 <- names(sort(table(fib_mod_8), decreasing = TRUE))[1]
+
+# Median
+median_fib_mod_8 <- median(fib_mod_8)
+
+# Mean
+mean_fib_mod_8 <- round(mean(fib_mod_8),2)
+
+# Sum
+sum_fib_mod_8 <- sum(fib_mod_8)
+
+# Product of each number
+product_fib_mod_8 <- prod(fib_mod_8)
+
+# Greatest Common Divisor (GCD)
+gcd_fib_mod_8 <- Reduce(gcd, fib_mod_8)
+
+# Count the number of zeros
+count_zeros_fib_mod_8 <- sum(fib_mod_8 == 0)
+
+# Total count of numbers in the sequence
+length_fib_mod_8 <- length(fib_mod_8)
+
+# Create a data frame for results
+results_m8 <- data.frame(
+  "Statistic" = c("F(n) mod 8", "Length π(8)", "Mean", "Median", "Mode", "# Zeros", "Sum", "Product", "GCD"),
+  "Value" = c(paste(fib_mod_8, collapse = " "), length_fib_mod_8, mean_fib_mod_8, median_fib_mod_8, mode_fib_mod_8,  count_zeros_fib_mod_8, sum_fib_mod_8, product_fib_mod_8, gcd_fib_mod_8)
+)
+
+# Convert the data frame to a Markdown table
+mod_table <- kable(results_m8, align = c("l", "c"), format = "markdown")
+
+# Apply the styling of the "blue" table to the "mod" table
+styled_mod_table <- kable_styling(mod_table, "striped", full_width = FALSE)
+
+styled_mod_table <- column_spec(styled_mod_table, 1, extra_css = "border-right: 1px solid #CCCCCC;")
+
+# Replace the caption with a header styled as a title
+styled_mod_table <- add_header_above(styled_mod_table, header = c("Statistics of Fibonacci Sequence Modulo 8" = 2), font_size = 20)
+
+# Print the styled table
+print(styled_mod_table)
+```
+
+
+## Modulo 4
+[n=4, π(4) = 6] 
+```{r}
+# Function to generate Fibonacci sequence modulo m
+fib_modulo <- function(n, m) {
+  fibonacci <- numeric(n)
+  fibonacci[1] <- 0
+  fibonacci[2] <- 1
+  
+  for (i in 3:n) {
+    fibonacci[i] <- (fibonacci[i-1] + fibonacci[i-2]) %% m
+  }
+  
+  return(fibonacci)
+}
+
+# Calculate Fibonacci sequence modulo 4, Pisano Periods = 6.
+n <- 6
+m <- 4
+fib_mod_4 <- fib_modulo(n, m)
+
+# Mode
+mode_fib_mod_4 <- names(sort(table(fib_mod_4), decreasing = TRUE))[1]
+
+# Median
+median_fib_mod_4 <- median(fib_mod_4)
+
+# Mean
+mean_fib_mod_4 <- round(mean(fib_mod_4),2)
+
+# Sum
+sum_fib_mod_4 <- sum(fib_mod_4)
+
+# Product of each number
+product_fib_mod_4 <- prod(fib_mod_4)
+
+# Greatest Common Divisor (GCD)
+gcd_fib_mod_4 <- Reduce(gcd, fib_mod_4)
+
+# Count the number of zeros
+count_zeros_fib_mod_4 <- sum(fib_mod_4 == 0)
+
+# Total count of numbers in the sequence
+length_fib_mod_4 <- length(fib_mod_4)
+
+# Create a data frame for results
+results_m4 <- data.frame(
+  "Statistic" = c("F(n) mod 4", "Length π(4)", "Mean", "Median", "Mode", "# Zeros", "Sum", "Product", "GCD"),
+  "Value" = c(paste(fib_mod_4, collapse = " "), length_fib_mod_4, mean_fib_mod_4, median_fib_mod_4, mode_fib_mod_4,  count_zeros_fib_mod_4, sum_fib_mod_4, product_fib_mod_4, gcd_fib_mod_4)
+)
+
+# Convert the data frame to a Markdown table
+mod_table <- kable(results_m4, align = c("l", "c"), format = "markdown")
+
+# Apply the styling of the "blue" table to the "mod" table
+styled_mod_table <- kable_styling(mod_table, "striped", full_width = FALSE)
+
+styled_mod_table <- column_spec(styled_mod_table, 1, extra_css = "border-right: 1px solid #CCCCCC;")
+
+# Replace the caption with a header styled as a title
+styled_mod_table <- add_header_above(styled_mod_table, header = c("Statistics of Fibonacci Sequence Modulo 4" = 2), font_size = 20)
+
+# Print the styled table
+print(styled_mod_table)
+```
+
+
+## Modulo 50
+[n=50, π(50) = 300] 
+```{r}
+# Function to calculate the greatest common divisor (GCD)
+gcd <- function(a, b) {
+  while (b != 0) {
+    temp <- b
+    b <- a %% b
+    a <- temp
+  }
+  return(a)
+}
+
+# Function to generate Fibonacci sequence modulo m
+fib_modulo <- function(n, m) {
+  fibonacci <- numeric(n)
+  fibonacci[1] <- 0
+  fibonacci[2] <- 1
+  
+  for (i in 3:n) {
+    fibonacci[i] <- (fibonacci[i-1] + fibonacci[i-2]) %% m
+  }
+  
+  return(fibonacci)
+}
+
+# Calculate Fibonacci sequence modulo 50, pisano period value = 300.
+n <- 300
+m <- 50
+fib_mod_50 <- fib_modulo(n, m)
+
+# Mode
+mode_fib_mod_50 <- names(sort(table(fib_mod_50), decreasing = TRUE))[1]
+
+# Median
+median_fib_mod_50 <- round(median(fib_mod_50),2)
+
+# Mean
+mean_fib_mod_50 <- round(mean(fib_mod_50),2)
+
+# Sum
+sum_fib_mod_50 <- sum(fib_mod_50)
+
+# Product of each number
+product_fib_mod_50 <- prod(fib_mod_50)
+
+# Greatest Common Divisor (GCD)
+gcd_fib_mod_50 <- Reduce(gcd, fib_mod_50)
+
+# Count the number of zeros
+count_zeros_fib_mod_50 <- sum(fib_mod_50 == 0)
+
+# Total count of numbers appeared in this period
+length_fib_mod_50 <- length(fib_mod_50)
+
+# Create a data frame for results
+results_m50 <- data.frame(
+  "Statistic" = c("F(n) mod 50", "Length π(50)", "Mean", "Median", "Mode", "# Zeros", "Sum", "Product", "GCD"),
+  "Value" = c(paste(fib_mod_50, collapse = " "), length_fib_mod_50, mean_fib_mod_50, median_fib_mod_50, mode_fib_mod_50,  count_zeros_fib_mod_50, sum_fib_mod_50, product_fib_mod_50, gcd_fib_mod_50)
+)
+
+# Convert the data frame to a Markdown table
+mod_table <- kable(results_m50, align = c("l", "c"), format = "markdown")
+
+# Apply the styling of the "blue" table to the "mod" table
+styled_mod_table <- kable_styling(mod_table, "striped", full_width = FALSE)
+
+styled_mod_table <- column_spec(styled_mod_table, 1, extra_css = "border-right: 1px solid #CCCCCC;")
+
+# Replace the caption with a header styled as a title
+styled_mod_table <- add_header_above(styled_mod_table, header = c("Statistics of Fibonacci Sequence Modulo 50" = 2), font_size = 20)
+
+# Print the styled table
+print(styled_mod_table)
+```
+
+
+
+# The Number of Heaven and Earth (55)
+I explored modulo 25, 30, 55 in this section. 
+
+## Modulo 25
+[n=25, π(25) = 100] 
+```{r}
+# Function to calculate the greatest common divisor (GCD)
+gcd <- function(a, b) {
+  while (b != 0) {
+    temp <- b
+    b <- a %% b
+    a <- temp
+  }
+  return(a)
+}
+
+# Function to generate Fibonacci sequence modulo m
+fib_modulo <- function(n, m) {
+  fibonacci <- numeric(n)
+  fibonacci[1] <- 0
+  fibonacci[2] <- 1
+  
+  for (i in 3:n) {
+    fibonacci[i] <- (fibonacci[i-1] + fibonacci[i-2]) %% m
+  }
+  
+  return(fibonacci)
+}
+
+# Calculate Fibonacci sequence modulo 25, pisano period value = 100.
+n <- 100
+m <- 25
+fib_mod_25 <- fib_modulo(n, m)
+
+# Mode
+mode_fib_mod_25 <- names(sort(table(fib_mod_25), decreasing = TRUE))[1]
+
+# Median
+median_fib_mod_25 <- round(median(fib_mod_25),2)
+
+# Mean
+mean_fib_mod_25 <- round(mean(fib_mod_25),2)
+
+# Sum
+sum_fib_mod_25 <- sum(fib_mod_25)
+
+# Product of each number
+product_fib_mod_25 <- prod(fib_mod_25)
+
+# Greatest Common Divisor (GCD)
+gcd_fib_mod_25 <- Reduce(gcd, fib_mod_25)
+
+# Count the number of zeros
+count_zeros_fib_mod_25 <- sum(fib_mod_25 == 0)
+
+# Total count of numbers appeared in this period
+length_fib_mod_25 <- length(fib_mod_25)
+
+# Create a data frame for results
+results_m25 <- data.frame(
+  "Statistic" = c("F(n) mod 25", "Length π(25)", "Mean", "Median", "Mode", "# Zeros", "Sum", "Product", "GCD"),
+  "Value" = c(paste(fib_mod_25, collapse = " "), length_fib_mod_25, mean_fib_mod_25, median_fib_mod_25, mode_fib_mod_25,  count_zeros_fib_mod_25, sum_fib_mod_25, product_fib_mod_25, gcd_fib_mod_25)
+)
+
+# Convert the data frame to a Markdown table
+mod_table <- kable(results_m25, align = c("l", "c"), format = "markdown")
+
+# Apply the styling of the "blue" table to the "mod" table
+styled_mod_table <- kable_styling(mod_table, "striped", full_width = FALSE)
+
+styled_mod_table <- column_spec(styled_mod_table, 1, extra_css = "border-right: 1px solid #CCCCCC;")
+
+# Replace the caption with a header styled as a title
+styled_mod_table <- add_header_above(styled_mod_table, header = c("Statistics of Fibonacci Sequence Modulo 25" = 2), font_size = 20)
+
+# Print the styled table
+print(styled_mod_table)
+```
+
+## Modulo 30
+[n=30, π(30) = 120] 
+```{r}
+# Function to calculate the greatest common divisor (GCD)
+gcd <- function(a, b) {
+  while (b != 0) {
+    temp <- b
+    b <- a %% b
+    a <- temp
+  }
+  return(a)
+}
+
+# Function to generate Fibonacci sequence modulo m
+fib_modulo <- function(n, m) {
+  fibonacci <- numeric(n)
+  fibonacci[1] <- 0
+  fibonacci[2] <- 1
+  
+  for (i in 3:n) {
+    fibonacci[i] <- (fibonacci[i-1] + fibonacci[i-2]) %% m
+  }
+  
+  return(fibonacci)
+}
+
+# Calculate Fibonacci sequence modulo 30, pisano period value = 120
+n <- 120
+m <- 30
+fib_mod_30 <- fib_modulo(n, m)
+
+# Mode
+mode_fib_mod_30 <- names(sort(table(fib_mod_30), decreasing = TRUE))[1]
+
+# Median
+median_fib_mod_30 <- round(median(fib_mod_30),2)
+
+# Mean
+mean_fib_mod_30 <- round(mean(fib_mod_30),2)
+
+# Sum
+sum_fib_mod_30 <- sum(fib_mod_30)
+
+# Product of each number
+product_fib_mod_30 <- prod(fib_mod_30)
+
+# Greatest Common Divisor (GCD)
+gcd_fib_mod_30 <- Reduce(gcd, fib_mod_30)
+
+# Count the number of zeros
+count_zeros_fib_mod_30 <- sum(fib_mod_30 == 0)
+
+# Total count of numbers appeared in this period
+length_fib_mod_30 <- length(fib_mod_30)
+
+# Create a data frame for results
+results_m30 <- data.frame(
+  "Statistic" = c("F(n) mod 30", "Length π(30)", "Mean", "Median", "Mode", "# Zeros", "Sum", "Product", "GCD"),
+  "Value" = c(paste(fib_mod_30, collapse = " "), length_fib_mod_30, mean_fib_mod_30, median_fib_mod_30, mode_fib_mod_30,  count_zeros_fib_mod_30, sum_fib_mod_30, product_fib_mod_30, gcd_fib_mod_30)
+)
+
+# Convert the data frame to a Markdown table
+mod_table <- kable(results_m30, align = c("l", "c"), format = "markdown")
+
+# Apply the styling of the "blue" table to the "mod" table
+styled_mod_table <- kable_styling(mod_table, "striped", full_width = FALSE)
+
+styled_mod_table <- column_spec(styled_mod_table, 1, extra_css = "border-right: 1px solid #CCCCCC;")
+
+# Replace the caption with a header styled as a title
+styled_mod_table <- add_header_above(styled_mod_table, header = c("Statistics of Fibonacci Sequence Modulo 30" = 2), font_size = 20)
+
+# Print the styled table
+print(styled_mod_table)
+```
+
+
+## Modulo 55
+[n=55, π(55) = 20] 
+```{r}
+# Function to calculate the greatest common divisor (GCD)
+gcd <- function(a, b) {
+  while (b != 0) {
+    temp <- b
+    b <- a %% b
+    a <- temp
+  }
+  return(a)
+}
+
+# Function to generate Fibonacci sequence modulo m
+fib_modulo <- function(n, m) {
+  fibonacci <- numeric(n)
+  fibonacci[1] <- 0
+  fibonacci[2] <- 1
+  
+  for (i in 3:n) {
+    fibonacci[i] <- (fibonacci[i-1] + fibonacci[i-2]) %% m
+  }
+  
+  return(fibonacci)
+}
+
+# Calculate Fibonacci sequence modulo 55, pisano period value = 20.
+n <- 20
+m <- 55
+fib_mod_55 <- fib_modulo(n, m)
+
+# Mode
+mode_fib_mod_55 <- names(sort(table(fib_mod_55), decreasing = TRUE))[1]
+
+# Median
+median_fib_mod_55 <- round(median(fib_mod_55),2)
+
+# Mean
+mean_fib_mod_55 <- round(mean(fib_mod_55),2)
+
+# Sum
+sum_fib_mod_55 <- sum(fib_mod_55)
+
+# Product of each number
+product_fib_mod_55 <- prod(fib_mod_55)
+
+# Greatest Common Divisor (GCD)
+gcd_fib_mod_55 <- Reduce(gcd, fib_mod_55)
+
+# Count the number of zeros
+count_zeros_fib_mod_55 <- sum(fib_mod_55 == 0)
+
+# Total count of numbers appeared in this period
+length_fib_mod_55 <- length(fib_mod_55)
+
+# Create a data frame for results
+results_m55 <- data.frame(
+  "Statistic" = c("F(n) mod 55", "Length π(55)", "Mean", "Median", "Mode", "# Zeros", "Sum", "Product", "GCD"),
+  "Value" = c(paste(fib_mod_55, collapse = " "), length_fib_mod_55, mean_fib_mod_55, median_fib_mod_55, mode_fib_mod_55,  count_zeros_fib_mod_55, sum_fib_mod_55, product_fib_mod_55, gcd_fib_mod_55)
+)
+
+# Convert the data frame to a Markdown table
+mod_table <- kable(results_m55, align = c("l", "c"), format = "markdown")
+
+# Apply the styling of the "blue" table to the "mod" table
+styled_mod_table <- kable_styling(mod_table, "striped", full_width = FALSE)
+
+styled_mod_table <- column_spec(styled_mod_table, 1, extra_css = "border-right: 1px solid #CCCCCC;")
+
+# Replace the caption with a header styled as a title
+styled_mod_table <- add_header_above(styled_mod_table, header = c("Statistics of Fibonacci Sequence Modulo 55" = 2), font_size = 20)
+
+# Print the styled table
+print(styled_mod_table)
+```
+

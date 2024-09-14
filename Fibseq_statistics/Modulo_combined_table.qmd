@@ -1,0 +1,441 @@
+---
+title: "Combined Table for statistics of all Modulo"
+format: html
+---
+*Purpose*
+This markdown file is made for compiling descriptive statistics of all modulo in Pisano Period in the combined table, for the purpose of presenting as a html markdown table for my research paper. 
+
+# original combined table
+```{r}
+# Load required libraries
+library(knitr)
+library(kableExtra)
+
+# Function to calculate the greatest common divisor (GCD)
+gcd <- function(a, b) {
+  while (b != 0) {
+    temp <- b
+    b <- a %% b
+    a <- temp
+  }
+  return(a)
+}
+
+lcm <- function(a, b) {
+  abs(a * b) / gcd(a, b)
+}
+
+# Define functions to generate Fibonacci sequence modulo m
+fib_modulo <- function(n, m) {
+  fibonacci <- numeric(n)
+  fibonacci[1] <- 0
+  fibonacci[2] <- 1
+  
+  for (i in 3:n) {
+    fibonacci[i] <- (fibonacci[i-1] + fibonacci[i-2]) %% m
+  }
+  
+  return(fibonacci)
+}
+
+# Calculate Fibonacci sequence modulo 8, Pisano Periods = 12.
+n_m8 <- 12
+m_m8 <- 8
+fib_mod_8 <- fib_modulo(n_m8, m_m8)
+
+# Calculate Fibonacci sequence modulo 4, Pisano Periods = 6.
+n_m4 <- 6
+m_m4 <- 4
+fib_mod_4 <- fib_modulo(n_m4, m_m4)
+
+# Calculate Fibonacci sequence modulo 5, Pisano Periods = 20.
+n_m5 <- 20
+m_m5 <- 5
+fib_mod_5 <- fib_modulo(n_m5, m_m5)
+
+# Calculate Fibonacci sequence modulo 6, Pisano Periods = 24. 
+n_m6 <- 24
+m_m6 <- 6
+fib_mod_6 <- fib_modulo(n_m6, m_m6)
+
+# Calculate Fibonacci sequence modulo 9, Pisano Periods = 24.
+n_m9 <- 24
+m_m9 <- 9
+fib_mod_9 <- fib_modulo(n_m9, m_m9)
+
+# Calculate Fibonacci sequence modulo 10 for the first 60 numbers
+n_m10 <- 60
+m_m9 <- 10
+fib_mod_10 <- fib_modulo(n_m10, m_m9)
+
+# Calculate Fibonacci sequence modulo 25, pisano period value = 100.
+n_m25 <- 100
+m_m25 <- 25
+fib_mod_25 <- fib_modulo(n_m25, m_m25)
+
+# Calculate Fibonacci sequence modulo 30, pisano period value = 120
+n_m30 <- 120
+m_m30 <- 30
+fib_mod_30 <- fib_modulo(n_m30, m_m30)
+
+# Calculate Fibonacci sequence modulo 50, pisano period value = 300.
+n_m50 <- 300
+m_m50 <- 50
+fib_mod_50 <- fib_modulo(n_m50, m_m50)
+
+# Calculate Fibonacci sequence modulo 55, pisano period value = 20.
+n_m55 <- 20
+m_m55 <- 55
+fib_mod_55 <- fib_modulo(n_m55, m_m55)
+
+
+# Calculate statistics for modulo 8
+mode_fib_mod_8 <- names(sort(table(fib_mod_8), decreasing = TRUE))[1]
+median_fib_mod_8 <- median(fib_mod_8)
+mean_fib_mod_8 <- round(mean(fib_mod_8),2)
+sum_fib_mod_8 <- sum(fib_mod_8)
+product_fib_mod_8 <- prod(fib_mod_8)
+gcd_fib_mod_8 <- Reduce(gcd, fib_mod_8)
+count_zeros_fib_mod_8 <- sum(fib_mod_8 == 0)
+length_fib_mod_8 <- length(fib_mod_8)
+
+# Calculate statistics for modulo 4
+mode_fib_mod_4 <- names(sort(table(fib_mod_4), decreasing = TRUE))[1]
+median_fib_mod_4 <- median(fib_mod_4)
+mean_fib_mod_4 <- round(mean(fib_mod_4),2)
+sum_fib_mod_4 <- sum(fib_mod_4)
+product_fib_mod_4 <- prod(fib_mod_4)
+gcd_fib_mod_4 <- Reduce(gcd, fib_mod_4)
+count_zeros_fib_mod_4 <- sum(fib_mod_4 == 0)
+length_fib_mod_4 <- length(fib_mod_4)
+
+# Calculate statistics for modulo 5
+mode_fib_mod_5 <- names(sort(table(fib_mod_5), decreasing = TRUE))[1]
+median_fib_mod_5 <- median(fib_mod_5)
+mean_fib_mod_5 <- mean(fib_mod_5)
+sum_fib_mod_5 <- sum(fib_mod_5)
+product_fib_mod_5 <- prod(fib_mod_5)
+gcd_fib_mod_5 <- Reduce(gcd, fib_mod_5)
+count_zeros_fib_mod_5 <- sum(fib_mod_5 == 0)
+length_fib_mod_5 <- length(fib_mod_5)
+
+# Calculate statistics for modulo 6
+mode_fib_mod_6 <- names(sort(table(fib_mod_6), decreasing = TRUE))[1]
+median_fib_mod_6 <- median(fib_mod_6)
+mean_fib_mod_6 <- round(mean(fib_mod_6),2)
+sum_fib_mod_6 <- sum(fib_mod_6)
+product_fib_mod_6 <- prod(fib_mod_6)
+gcd_fib_mod_6 <- Reduce(gcd, fib_mod_6)
+count_zeros_fib_mod_6 <- sum(fib_mod_6 == 0)
+length_fib_mod_6 <- length(fib_mod_6)
+
+# Calculate statistics for modulo 9
+mode_fib_mod_9 <- names(sort(table(fib_mod_9), decreasing = TRUE))[1]
+median_fib_mod_9 <- median(fib_mod_9)
+mean_fib_mod_9 <- round(mean(fib_mod_9),2)
+sum_fib_mod_9 <- sum(fib_mod_9)
+product_fib_mod_9 <- prod(fib_mod_9)
+gcd_fib_mod_9 <- Reduce(gcd, fib_mod_9)
+count_zeros_fib_mod_9 <- sum(fib_mod_9 == 0)
+length_fib_mod_9 <- length(fib_mod_9)
+
+# Calculate statistics for modulo 10
+mode_fib_mod_10 <- names(sort(table(fib_mod_10), decreasing = TRUE))[1]
+median_fib_mod_10 <- median(fib_mod_10)
+mean_fib_mod_10 <- round(mean(fib_mod_10),2)
+sum_fib_mod_10 <- sum(fib_mod_10)
+product_fib_mod_10 <- prod(fib_mod_10)
+gcd_fib_mod_10 <- Reduce(gcd, fib_mod_10)
+count_zeros_fib_mod_10 <- sum(fib_mod_10 == 0)
+length_fib_mod_10 <- length(fib_mod_10)
+
+# Calculate statistics for modulo 25
+mode_fib_mod_25 <- names(sort(table(fib_mod_25), decreasing = TRUE))[1]
+median_fib_mod_25 <- round(median(fib_mod_25),2)
+mean_fib_mod_25 <- round(mean(fib_mod_25),2)
+sum_fib_mod_25 <- sum(fib_mod_25)
+product_fib_mod_25 <- prod(fib_mod_25)
+gcd_fib_mod_25 <- Reduce(gcd, fib_mod_25)
+count_zeros_fib_mod_25 <- sum(fib_mod_25 == 0)
+length_fib_mod_25 <- length(fib_mod_25)
+
+# Calculate statistics for modulo 30
+mode_fib_mod_30 <- names(sort(table(fib_mod_30), decreasing = TRUE))[1]
+median_fib_mod_30 <- round(median(fib_mod_30),2)
+mean_fib_mod_30 <- round(mean(fib_mod_30),2)
+sum_fib_mod_30 <- sum(fib_mod_30)
+product_fib_mod_30 <- prod(fib_mod_30)
+gcd_fib_mod_30 <- Reduce(gcd, fib_mod_30)
+count_zeros_fib_mod_30 <- sum(fib_mod_30 == 0)
+length_fib_mod_30 <- length(fib_mod_30)
+
+# Calculate statistics for modulo 50
+mode_fib_mod_50 <- names(sort(table(fib_mod_50), decreasing = TRUE))[1]
+median_fib_mod_50 <- round(median(fib_mod_50),2)
+mean_fib_mod_50 <- round(mean(fib_mod_50),2)
+sum_fib_mod_50 <- sum(fib_mod_50)
+product_fib_mod_50 <- prod(fib_mod_50)
+gcd_fib_mod_50 <- Reduce(gcd, fib_mod_50)
+count_zeros_fib_mod_50 <- sum(fib_mod_50 == 0)
+length_fib_mod_50 <- length(fib_mod_50)
+
+# Calculate statistics for modulo 55
+mode_fib_mod_55 <- names(sort(table(fib_mod_55), decreasing = TRUE))[1]
+median_fib_mod_55 <- round(median(fib_mod_55),2)
+mean_fib_mod_55 <- round(mean(fib_mod_55),2)
+sum_fib_mod_55 <- sum(fib_mod_55)
+product_fib_mod_55 <- prod(fib_mod_55)
+gcd_fib_mod_55 <- Reduce(gcd, fib_mod_55)
+count_zeros_fib_mod_55 <- sum(fib_mod_55 == 0)
+length_fib_mod_55 <- length(fib_mod_55)
+
+# Create a data frame for results
+combined_results <- data.frame(
+  "Measure" = c("F(n)", "Length", "Mean", "Median", "Mode", "# Zeros", "Sum", "Product", "GCD"),
+  "Mod_4" = c(paste(fib_mod_4, collapse = " "), length_fib_mod_4, mean_fib_mod_4, median_fib_mod_4, mode_fib_mod_4, count_zeros_fib_mod_4, sum_fib_mod_4, product_fib_mod_4, gcd_fib_mod_4),
+  "Mod_5" = c(paste(fib_mod_5, collapse = " "), length_fib_mod_5, mean_fib_mod_5, median_fib_mod_5, mode_fib_mod_5,  count_zeros_fib_mod_5, sum_fib_mod_5, product_fib_mod_5, gcd_fib_mod_5),
+  "Mod_6" = c(paste(fib_mod_6, collapse = " "), length_fib_mod_6, mean_fib_mod_6, median_fib_mod_6, mode_fib_mod_6,  count_zeros_fib_mod_6, sum_fib_mod_6, product_fib_mod_6, gcd_fib_mod_6),
+  "Mod_8" = c(paste(fib_mod_8, collapse = " "), length_fib_mod_8, mean_fib_mod_8, median_fib_mod_8, mode_fib_mod_8, count_zeros_fib_mod_8, sum_fib_mod_8, product_fib_mod_8, gcd_fib_mod_8),
+  "Mod_9" = c(paste(fib_mod_9, collapse = " "), length_fib_mod_9, mean_fib_mod_9, median_fib_mod_9, mode_fib_mod_9,  count_zeros_fib_mod_9, sum_fib_mod_9, product_fib_mod_9, gcd_fib_mod_9),
+  "Mod_10" = c(paste(fib_mod_10, collapse = " "), length_fib_mod_10, mean_fib_mod_10, median_fib_mod_10, mode_fib_mod_10,  count_zeros_fib_mod_10, sum_fib_mod_10, product_fib_mod_10, gcd_fib_mod_10),
+  "Mod_25" = c(paste(fib_mod_25, collapse = " "), length_fib_mod_25, mean_fib_mod_25, median_fib_mod_25, mode_fib_mod_25,  count_zeros_fib_mod_25, sum_fib_mod_25, product_fib_mod_25, gcd_fib_mod_25),
+  "Mod_30" = c(paste(fib_mod_30, collapse = " "), length_fib_mod_30, mean_fib_mod_30, median_fib_mod_30, mode_fib_mod_30,  count_zeros_fib_mod_30, sum_fib_mod_30, product_fib_mod_30, gcd_fib_mod_30),
+  "Mod_50" = c(paste(fib_mod_50, collapse = " "), length_fib_mod_50, mean_fib_mod_50, median_fib_mod_50, mode_fib_mod_50,  count_zeros_fib_mod_50, sum_fib_mod_50, product_fib_mod_50, gcd_fib_mod_50),
+  "Mod_55" = c(paste(fib_mod_55, collapse = " "), length_fib_mod_55, mean_fib_mod_55, median_fib_mod_55, mode_fib_mod_55,  count_zeros_fib_mod_55, sum_fib_mod_55, product_fib_mod_55, gcd_fib_mod_55)
+)
+
+
+# Convert the data frame to a Markdown table
+combined_results_table <- kable(combined_results, align = c("l", "c", "c"), format = "markdown")
+
+
+# Apply the styling
+styled_combined_results_table <- kable_styling(combined_results_table, full_width = FALSE)
+
+styled_combined_results_table <- column_spec(styled_combined_results_table, 1, extra_css = "border-right: 1px solid #CCCCCC;")
+
+# Replace the caption with a header styled as a title
+styled_combined_results_table <- add_header_above(styled_combined_results_table, header = c("Statistics of Fibonacci Sequence Modulos" = 11), font_size = 20)
+
+# Print the styled table
+print(styled_combined_results_table)
+
+```
+
+# centralized
+```{r}
+# Load required libraries
+library(knitr)
+library(kableExtra)
+
+# Function to calculate the greatest common divisor (GCD)
+gcd <- function(a, b) {
+  while (b != 0) {
+    temp <- b
+    b <- a %% b
+    a <- temp
+  }
+  return(a)
+}
+
+lcm <- function(a, b) {
+  abs(a * b) / gcd(a, b)
+}
+
+# Define functions to generate Fibonacci sequence modulo m
+fib_modulo <- function(n, m) {
+  fibonacci <- numeric(n)
+  fibonacci[1] <- 0
+  fibonacci[2] <- 1
+  
+  for (i in 3:n) {
+    fibonacci[i] <- (fibonacci[i-1] + fibonacci[i-2]) %% m
+  }
+  
+  return(fibonacci)
+}
+
+# Calculate Fibonacci sequence modulo 8, Pisano Periods = 12.
+n_m8 <- 12
+m_m8 <- 8
+fib_mod_8 <- fib_modulo(n_m8, m_m8)
+
+# Calculate Fibonacci sequence modulo 4, Pisano Periods = 6.
+n_m4 <- 6
+m_m4 <- 4
+fib_mod_4 <- fib_modulo(n_m4, m_m4)
+
+# Calculate Fibonacci sequence modulo 5, Pisano Periods = 20.
+n_m5 <- 20
+m_m5 <- 5
+fib_mod_5 <- fib_modulo(n_m5, m_m5)
+
+# Calculate Fibonacci sequence modulo 6, Pisano Periods = 24. 
+n_m6 <- 24
+m_m6 <- 6
+fib_mod_6 <- fib_modulo(n_m6, m_m6)
+
+# Calculate Fibonacci sequence modulo 9, Pisano Periods = 24.
+n_m9 <- 24
+m_m9 <- 9
+fib_mod_9 <- fib_modulo(n_m9, m_m9)
+
+# Calculate Fibonacci sequence modulo 25, pisano period value = 100.
+n_m25 <- 100
+m_m25 <- 25
+fib_mod_25 <- fib_modulo(n_m25, m_m25)
+
+# Calculate Fibonacci sequence modulo 30, pisano period value = 120
+n_m30 <- 120
+m_m30 <- 30
+fib_mod_30 <- fib_modulo(n_m30, m_m30)
+
+# Calculate Fibonacci sequence modulo 50, pisano period value = 300.
+n_m50 <- 300
+m_m50 <- 50
+fib_mod_50 <- fib_modulo(n_m50, m_m50)
+
+# Calculate Fibonacci sequence modulo 55, pisano period value = 20.
+n_m55 <- 20
+m_m55 <- 55
+fib_mod_55 <- fib_modulo(n_m55, m_m55)
+
+# Calculate Fibonacci sequence modulo 10 for the first 60 numbers
+n_m10 <- 60
+m_m10 <- 10
+fib_mod_10 <- fib_modulo(n_m10, m_m10)
+
+# Calculate statistics for modulo 8
+mode_fib_mod_8 <- names(sort(table(fib_mod_8), decreasing = TRUE))[1]
+median_fib_mod_8 <- median(fib_mod_8)
+mean_fib_mod_8 <- round(mean(fib_mod_8),2)
+sum_fib_mod_8 <- sum(fib_mod_8)
+product_fib_mod_8 <- prod(fib_mod_8)
+gcd_fib_mod_8 <- Reduce(gcd, fib_mod_8)
+count_zeros_fib_mod_8 <- sum(fib_mod_8 == 0)
+length_fib_mod_8 <- length(fib_mod_8)
+
+# Calculate statistics for modulo 4
+mode_fib_mod_4 <- names(sort(table(fib_mod_4), decreasing = TRUE))[1]
+median_fib_mod_4 <- median(fib_mod_4)
+mean_fib_mod_4 <- round(mean(fib_mod_4),2)
+sum_fib_mod_4 <- sum(fib_mod_4)
+product_fib_mod_4 <- prod(fib_mod_4)
+gcd_fib_mod_4 <- Reduce(gcd, fib_mod_4)
+count_zeros_fib_mod_4 <- sum(fib_mod_4 == 0)
+length_fib_mod_4 <- length(fib_mod_4)
+
+# Calculate statistics for modulo 5
+mode_fib_mod_5 <- names(sort(table(fib_mod_5), decreasing = TRUE))[1]
+median_fib_mod_5 <- median(fib_mod_5)
+mean_fib_mod_5 <- mean(fib_mod_5)
+sum_fib_mod_5 <- sum(fib_mod_5)
+product_fib_mod_5 <- prod(fib_mod_5)
+gcd_fib_mod_5 <- Reduce(gcd, fib_mod_5)
+count_zeros_fib_mod_5 <- sum(fib_mod_5 == 0)
+length_fib_mod_5 <- length(fib_mod_5)
+
+# Calculate statistics for modulo 6
+mode_fib_mod_6 <- names(sort(table(fib_mod_6), decreasing = TRUE))[1]
+median_fib_mod_6 <- median(fib_mod_6)
+mean_fib_mod_6 <- round(mean(fib_mod_6),2)
+sum_fib_mod_6 <- sum(fib_mod_6)
+product_fib_mod_6 <- prod(fib_mod_6)
+gcd_fib_mod_6 <- Reduce(gcd, fib_mod_6)
+count_zeros_fib_mod_6 <- sum(fib_mod_6 == 0)
+length_fib_mod_6 <- length(fib_mod_6)
+
+# Calculate statistics for modulo 9
+mode_fib_mod_9 <- names(sort(table(fib_mod_9), decreasing = TRUE))[1]
+median_fib_mod_9 <- median(fib_mod_9)
+mean_fib_mod_9 <- round(mean(fib_mod_9),2)
+sum_fib_mod_9 <- sum(fib_mod_9)
+product_fib_mod_9 <- prod(fib_mod_9)
+gcd_fib_mod_9 <- Reduce(gcd, fib_mod_9)
+count_zeros_fib_mod_9 <- sum(fib_mod_9 == 0)
+length_fib_mod_9 <- length(fib_mod_9)
+
+# Calculate statistics for modulo 25
+mode_fib_mod_25 <- names(sort(table(fib_mod_25), decreasing = TRUE))[1]
+median_fib_mod_25 <- round(median(fib_mod_25),2)
+mean_fib_mod_25 <- round(mean(fib_mod_25),2)
+sum_fib_mod_25 <- sum(fib_mod_25)
+product_fib_mod_25 <- prod(fib_mod_25)
+gcd_fib_mod_25 <- Reduce(gcd, fib_mod_25)
+count_zeros_fib_mod_25 <- sum(fib_mod_25 == 0)
+length_fib_mod_25 <- length(fib_mod_25)
+
+# Calculate statistics for modulo 30
+mode_fib_mod_30 <- names(sort(table(fib_mod_30), decreasing = TRUE))[1]
+median_fib_mod_30 <- round(median(fib_mod_30),2)
+mean_fib_mod_30 <- round(mean(fib_mod_30),2)
+sum_fib_mod_30 <- sum(fib_mod_30)
+product_fib_mod_30 <- prod(fib_mod_30)
+gcd_fib_mod_30 <- Reduce(gcd, fib_mod_30)
+count_zeros_fib_mod_30 <- sum(fib_mod_30 == 0)
+length_fib_mod_30 <- length(fib_mod_30)
+
+# Calculate statistics for modulo 50
+mode_fib_mod_50 <- names(sort(table(fib_mod_50), decreasing = TRUE))[1]
+median_fib_mod_50 <- round(median(fib_mod_50),2)
+mean_fib_mod_50 <- round(mean(fib_mod_50),2)
+sum_fib_mod_50 <- sum(fib_mod_50)
+product_fib_mod_50 <- prod(fib_mod_50)
+gcd_fib_mod_50 <- Reduce(gcd, fib_mod_50)
+count_zeros_fib_mod_50 <- sum(fib_mod_50 == 0)
+length_fib_mod_50 <- length(fib_mod_50)
+
+# Calculate statistics for modulo 55
+mode_fib_mod_55 <- names(sort(table(fib_mod_55), decreasing = TRUE))[1]
+median_fib_mod_55 <- round(median(fib_mod_55),2)
+mean_fib_mod_55 <- round(mean(fib_mod_55),2)
+sum_fib_mod_55 <- sum(fib_mod_55)
+product_fib_mod_55 <- prod(fib_mod_55)
+gcd_fib_mod_55 <- Reduce(gcd, fib_mod_55)
+count_zeros_fib_mod_55 <- sum(fib_mod_55 == 0)
+length_fib_mod_55 <- length(fib_mod_55)
+
+# Calculate statistics for modulo 10
+mode_fib_mod_10 <- names(sort(table(fib_mod_10), decreasing = TRUE))[1]
+median_fib_mod_10 <- median(fib_mod_10)
+mean_fib_mod_10 <- round(mean(fib_mod_10),2)
+sum_fib_mod_10 <- sum(fib_mod_10)
+product_fib_mod_10 <- prod(fib_mod_10)
+gcd_fib_mod_10 <- Reduce(gcd, fib_mod_10)
+count_zeros_fib_mod_10 <- sum(fib_mod_10 == 0)
+length_fib_mod_10 <- length(fib_mod_10)
+
+# Create a data frame for results
+combined_results <- data.frame(
+  "Measure" = c("F(n)", "Length", "Mean", "Median", "Mode", "# Zeros", "Sum", "Product", "GCD"),
+  "Mod_4" = c(paste(fib_mod_4, collapse = " "), length_fib_mod_4, mean_fib_mod_4, median_fib_mod_4, mode_fib_mod_4, count_zeros_fib_mod_4, sum_fib_mod_4, product_fib_mod_4, gcd_fib_mod_4),
+  "Mod_5" = c(paste(fib_mod_5, collapse = " "), length_fib_mod_5, mean_fib_mod_5, median_fib_mod_5, mode_fib_mod_5,  count_zeros_fib_mod_5, sum_fib_mod_5, product_fib_mod_5, gcd_fib_mod_5),
+  "Mod_6" = c(paste(fib_mod_6, collapse = " "), length_fib_mod_6, mean_fib_mod_6, median_fib_mod_6, mode_fib_mod_6,  count_zeros_fib_mod_6, sum_fib_mod_6, product_fib_mod_6, gcd_fib_mod_6),
+  "Mod_8" = c(paste(fib_mod_8, collapse = " "), length_fib_mod_8, mean_fib_mod_8, median_fib_mod_8, mode_fib_mod_8, count_zeros_fib_mod_8, sum_fib_mod_8, product_fib_mod_8, gcd_fib_mod_8),
+  "Mod_9" = c(paste(fib_mod_9, collapse = " "), length_fib_mod_9, mean_fib_mod_9, median_fib_mod_9, mode_fib_mod_9,  count_zeros_fib_mod_9, sum_fib_mod_9, product_fib_mod_9, gcd_fib_mod_9),
+  "Mod_10" = c(paste(fib_mod_10, collapse = " "), length_fib_mod_10, mean_fib_mod_10, median_fib_mod_10, mode_fib_mod_10,  count_zeros_fib_mod_10, sum_fib_mod_10, product_fib_mod_10, gcd_fib_mod_10),
+  "Mod_25" = c(paste(fib_mod_25, collapse = " "), length_fib_mod_25, mean_fib_mod_25, median_fib_mod_25, mode_fib_mod_25,  count_zeros_fib_mod_25, sum_fib_mod_25, product_fib_mod_25, gcd_fib_mod_25),
+  "Mod_30" = c(paste(fib_mod_30, collapse = " "), length_fib_mod_30, mean_fib_mod_30, median_fib_mod_30, mode_fib_mod_30,  count_zeros_fib_mod_30, sum_fib_mod_30, product_fib_mod_30, gcd_fib_mod_30),
+  "Mod_50" = c(paste(fib_mod_50, collapse = " "), length_fib_mod_50, mean_fib_mod_50, median_fib_mod_50, mode_fib_mod_50,  count_zeros_fib_mod_50, sum_fib_mod_50, product_fib_mod_50, gcd_fib_mod_50),
+  "Mod_55" = c(paste(fib_mod_55, collapse = " "), length_fib_mod_55, mean_fib_mod_55, median_fib_mod_55, mode_fib_mod_55,  count_zeros_fib_mod_55, sum_fib_mod_55, product_fib_mod_55, gcd_fib_mod_55)
+)
+
+
+# Convert the data frame to a Markdown table
+combined_results_table <- kable(combined_results, align = rep("c", 11), format = "markdown")
+
+
+# Apply the styling
+styled_combined_results_table <- kable_styling(combined_results_table, full_width = FALSE)
+
+styled_combined_results_table <- column_spec(styled_combined_results_table, 1, extra_css = "border-right: 1px solid #CCCCCC;")
+
+# Replace the caption with a header styled as a title
+styled_combined_results_table <- add_header_above(styled_combined_results_table, header = c("Statistics of Fibonacci Sequence Modulos" = 11), font_size = 20)
+
+# Print the styled table
+print(styled_combined_results_table)
+
+
+```
+

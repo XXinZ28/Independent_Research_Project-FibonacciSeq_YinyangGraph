@@ -1,0 +1,158 @@
+---
+title: "Exploration of the first 50th Fibonacci numbers"
+author: "Xinxin"
+format: html
+---
+This documents contains a general exploration of Fibonacci sequence, including descriptive statistics of the first 50 Fibonacci numbers, golden ratio and golden spiral visualization. 
+
+# summary of the first 50th fibonacci sequence. 
+```{r}
+# Load required libraries
+library(knitr)
+library(kableExtra)
+
+# Function to calculate mode
+mode_function <- function(x) {
+  ux <- unique(x)
+  tab <- tabulate(match(x, ux))
+  ux[tab == max(tab)]
+}
+
+# Function to generate Fibonacci sequence up to n terms
+fibonacci <- function(n) {
+  fib <- numeric(n)
+  fib[1] <- 0
+  fib[2] <- 1
+  for (i in 3:n) {
+    fib[i] <- fib[i - 1] + fib[i - 2]
+  }
+  return(fib)
+}
+
+# Generate Fibonacci sequence up to 50 terms
+n <- 50
+fib_seq <- fibonacci(n)
+
+# Calculate statistical measures
+mean_fib <- round(mean(fib_seq),2)
+median_fib <- round(median(fib_seq),2)
+mode_fib <- mode_function(fib_seq)
+sum_fib <- round(sum(fib_seq),2)
+prod_fib <- prod(fib_seq)
+
+# Function to calculate greatest common divisor (GCD)
+gcd <- function(a, b) {
+  if (b == 0) {
+    return(a)
+  } else {
+    return(gcd(b, a %% b))
+  }
+}
+
+# Calculate GCD of the first 50 Fibonacci numbers
+fib_gcd <- gcd(fib_seq[1], fib_seq[2])
+for (i in 3:length(fib_seq)) {
+  fib_gcd <- gcd(fib_gcd, fib_seq[i])
+}
+
+# Create a data frame with statistical measures
+fib_stats <- data.frame(
+  Statistic = c("Mean", "Median", "Mode", "Sum", "Product", "GCD"),
+  Value = c(mean_fib, median_fib, paste(mode_fib, collapse = ", "), sum_fib, prod_fib, fib_gcd)
+)
+
+
+# Convert the data frame to a Markdown table
+mod_table <- kable(fib_stats, align = c("l", "c"), format = "markdown")
+
+# Apply the styling of the "blue" table to the "mod" table
+styled_mod_table <- kable_styling(mod_table, full_width = FALSE)
+
+styled_mod_table <- column_spec(styled_mod_table, 1, extra_css = "border-right: 1px solid #CCCCCC;")
+
+# Replace the caption with a header styled as a title
+styled_mod_table <- add_header_above(styled_mod_table, header = c("Statistics of First 50 Fibonacci Sequence" = 2), font_size = 20)
+
+# Print the styled table
+print(styled_mod_table)
+
+```
+
+
+
+# golden ratio check (line graph)
+```{r}
+# Function to calculate the Fibonacci sequence up to n
+fibonacci <- function(n) {
+  fib <- numeric(n)
+  fib[1] <- 0
+  fib[2] <- 1
+  for (i in 3:n) {
+    fib[i] <- fib[i-1] + fib[i-2]
+  }
+  return(fib)
+}
+
+# Calculate Fibonacci sequence up to the 50th number
+fib_seq <- fibonacci(50)
+
+# Calculate the ratios of consecutive Fibonacci numbers
+ratios <- fib_seq[-1] / fib_seq[-length(fib_seq)]
+
+# Golden ratio value
+golden_ratio <- (1 + sqrt(5)) / 2
+
+# Create a plot
+plot(1:49, ratios, type = "l", col = "blue", xlab = "Index", ylab = "Ratio", main = "First 50 Fibonacci Numbers, Ratio to the Golden Ratio")
+abline(h = golden_ratio, col = "red", lty = 2)  # Plot the golden ratio line
+legend("topright", legend = c("Fibonacci Ratio", "Golden Ratio"), col = c("blue", "red"), lty = c(1, 2))
+
+```
+
+# golden spiral
+```{r}
+
+options( scipen = 999 )
+
+# Function to calculate the Fibonacci sequence up to n
+fibonacci <- function(n) {
+  fib <- numeric(n)
+  fib[1] <- 0
+  fib[2] <- 1
+  for (i in 3:n) {
+    fib[i] <- fib[i-1] + fib[i-2]
+  }
+  return(fib)
+}
+
+# Calculate Fibonacci sequence up to the 50th number
+fib_seq <- fibonacci(50)
+
+# Define golden ratio
+golden_ratio <- (1 + sqrt(5)) / 2  # Actual value of the golden ratio
+
+# Function to calculate the angle for each Fibonacci number
+calculate_angle <- function(index, ratio) {
+  angle <- 2 * pi * index * ratio
+  return(angle)
+}
+
+# Calculate angles for Fibonacci numbers up to the 50th number
+angles <- sapply(1:50, function(i) calculate_angle(i, golden_ratio))
+
+# Calculate the polar coordinates for Fibonacci numbers up to the 50th number
+x_coords <- fib_seq * cos(angles)
+y_coords <- fib_seq * sin(angles)
+
+# Interpolate additional points for a smoother curve
+smoothness <- 100  # Number of interpolated points between each Fibonacci number
+
+
+smooth_x <- approx(1:length(x_coords), x_coords, n = (length(x_coords) - 1) * smoothness + 1)$y
+smooth_y <- approx(1:length(y_coords), y_coords, n = (length(y_coords) - 1) * smoothness + 1)$y
+
+# Create a plot with the smoothed curve
+plot(smooth_x, smooth_y, type = "l", col = "blue", xlab = "X", ylab = "Y", main = "Fibonacci Spiral of the First 50 Numbers")
+
+```
+

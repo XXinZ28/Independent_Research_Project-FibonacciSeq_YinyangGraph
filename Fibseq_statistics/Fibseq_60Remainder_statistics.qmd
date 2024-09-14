@@ -1,0 +1,53 @@
+---
+title: "Statistics of Remainder in the First 60 Fibonacci Sequence "
+format: html
+---
+
+*Purpose of this document*
+This file contains the calculation of remainder in the first 60 terms in Fibonacci Sequence. 
+
+*Property Reference*
+Here are the known property for Remainders in Pisano Period for reference: 
+    1. Each number when divided by 10, the last one digit is the remainder, the last digits of fib seq have a pattern of length 60. 
+    2. When divided by 100, which means are looking at the last two digits, the last two digits are the remainder -> have the pattern of length 300 of repetition.
+    3. When looking at the last three digits(divided by 1000), the last three digits are the remainder -> have the pattern of length 1500 of repetition. 
+
+We can know the next remainder by adding up the previous two remainders. 
+    1. When 0 and 1 are next to each other(b/c this is divisible by 5), then 1+ 1 = 2, (0,1,1,2) and that's the beginning of fibonacci numbers and it carries on, to restart the cycle! (0 and 1 are the big triggers?). 
+    2. The modulus Fibbonacci sequences had the same additive property as the normal Fibbonacci.
+
+```{r}
+library(knitr)
+library(kableExtra)
+
+# Function to generate Fibonacci sequence
+fibonacci <- function(n) {
+  fib <- numeric(n)
+  fib[1] <- 0
+  fib[2] <- 1
+  for (i in 3:n) {
+    fib[i] <- fib[i - 1] + fib[i - 2]
+  }
+  return(fib)
+}
+
+# Calculate Fibonacci sequence up to the 60th term
+fib_sequence <- fibonacci(60)
+
+# Divide each number by 10 and show the remainder
+remainders <- fib_sequence %% 10
+
+# Create a data frame for the Fibonacci sequence and remainders
+fib_df <- data.frame(Position = 1:60, Fibonacci_Numbers = fib_sequence, Final_Digit = remainders)
+
+# Print the table in the requested format
+fib_table <- kable(fib_df, format = "markdown", align = "c") %>%
+  add_header_above(header = c( "Final Digits of Fibonacci Numbers, 60 Code" = 3), font = 20)
+
+styled_mod_table <- kable_styling(fib_table, full_width = FALSE)
+
+styled_mod_table <- column_spec(styled_mod_table, 1, extra_css = "border-right: 1px solid #CCCCCC;")
+
+print(styled_mod_table)
+
+```
